@@ -1,0 +1,91 @@
+{% extends "layouts/base.html" %}
+{% block title %} List Products {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+  .color {
+    background-color: rgba(247, 247, 247, 0.959);
+  }
+
+  .border {
+    border-radius: 10px;
+  }
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container color border p-3">
+  <!-- Portfolio Item Heading -->
+  <h2 class="my-4 ">Detalhes do Produto</h2>
+  <!-- Portfolio Item Row -->
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card" >
+        <div class="card-header card-header-image col-md-16" id="b_image">
+          <img class="img" src="{{url_for('static', filename='images/'+ product.image_1)}}" alt="{{product.name}}"
+            height="490">
+        </div>
+        <div class="card-body">
+          <h6 class="card-category text-gray">
+          </h6>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <h4 class="text-warning">{{ product.name }}</h4>
+      <hr>
+      <h3>Preço: R$ {{product.price}}</h3>
+      <h4>Desconto: {{product.discount}}%</h4>
+
+      <h3 class="my-3">Descrição do produto</h3>
+      <p class="text-justify">{{ product.desc }}</p>
+
+      <form action="{{url_for('AddCart')}}" method="POST">
+        <input type="hidden" name="product_id" value="{{product.id}}">
+        <div class="col-md-5">
+          <div class="form-outline">
+            <label class="form-label" for="typeNumber">Quantidade:</label>
+            <input class="form-control" type="number" name="quantity" id="" value="1" min="1" max="{{product.stock}}">                      
+          </div>
+        </div>
+       
+    
+        
+        <button type="submit" class="float-let btn btn-sm btn-primary mt-5"> Adicionar ao carrinho </button>
+        
+        
+      </form>
+    </div>
+  </div>
+
+  <h3 class="my-4">Related Projects</h3>
+  <hr>
+  <div class="row">
+    <div class="col-md-6 col-sm-6 mb-4" id="s_image">
+      <img src="{{url_for('static', filename='images/'+ product.image_1)}}" alt="{{product.name}}" width="120"
+        height="120" class="m-3">
+      <img src="{{url_for('static', filename='images/'+ product.image_2)}}" alt="{{product.name}}" width="120"
+        height="120" class="m-3">
+      <img src="{{url_for('static', filename='images/'+ product.image_3)}}" alt="{{product.name}}" width="120"
+        height="120" class="m-3">
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+{% block javascripts %}
+<script>
+  var b_image = document.getElementById('b_image');
+  var s_image = document.getElementById('s_image').getElementsByTagName('img');
+  for (var i = 0; i < s_image.length; i++) {
+    s_image[i].addEventListener('click', full_image);
+  }
+  function full_image() {
+    var ImageSRC = this.getAttribute('src');
+    b_image.innerHTML = "<img src =" + ImageSRC + " height='490'>";
+  }
+</script>
+
+
+{% endblock javascripts %}

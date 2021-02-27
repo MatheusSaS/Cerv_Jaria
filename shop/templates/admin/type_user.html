@@ -1,0 +1,102 @@
+{% extends "layouts/base.html" %} {% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    a,
+    a:hover {
+        color: white;
+    }
+
+    a:link {
+        text-decoration: none;
+    }
+</style>
+{% endblock stylesheets %} {% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Usuarios</h4>
+                <p class="card-category">Tabela de tipos de usuarios</p>
+                <button type="submit" class="btn btn-warning pull-right">
+                    <a href="{{url_for('addtype_user')}}">Adicionar</a>
+                </button> 
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-primary">
+                        <th>%</th>
+                        <th>Tipos</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </thead>
+                    <tbody>
+                        {% for user in user_type %}
+                        <tr>
+                            <th>{{loop.index }}</th>
+                            <th>{{user.type}}</th>
+                            <th>
+                                <button type="button" onclick=""
+                                    rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                            </th>
+                            <th>
+                                <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                    rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                    <i class="material-icons">close</i>
+                                </button>
+                            </th>
+                        </tr>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">
+                                            Deletar - 
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span class="text">Deseja realmente deletar a marca?</span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                            Cancelar
+                                        </button>
+                                        <form action="" method="POST">
+                                            <button type="submit" class="btn btn-danger">
+                                                Deletar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}                 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        md.initDashboardPageCharts();
+    });
+</script>
+
+{% endblock javascripts %}

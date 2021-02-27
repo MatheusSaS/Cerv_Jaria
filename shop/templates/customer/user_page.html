@@ -1,0 +1,160 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Page User {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header card-header-primary">
+        <h4 class="card-title">Perfil</h4>
+        <p class="card-category">Complete seu cadastro</p>
+        <!-- MODAL -->
+        <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#exampleModal">
+          Endereço de entrega
+        </button>
+      </div>
+      <div class="card-body ">
+        <form role="form" method="post" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Username</label>
+                <input type="text" class="form-control" value="{{user.username}}">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Nome</label>
+                <input type="text" class="form-control" value="{{user.name}}">
+              </div>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="bmd-label-floating">Email address</label>
+                <input type="email" class="form-control" value="{{user.email}}">
+              </div>
+            </div>    
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Senha</label>
+                <input type="password" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Confirme a senha</label>
+                <input type="password" class="form-control">
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+          <div class="clearfix"></div>
+        </form>
+        <form action="{{url_for('add_addres')}}" method="POST" enctype="multipart/form-data">
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Endereço de Entrega</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Adress</label>
+                          <input type="text" name="address" class="form-control" value="{{address.address}}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">contact</label>
+                          <input type="tel" name="contact" class="form-control" value="{{address.contact}}">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">state</label>
+                          <input type="text" name="state" class="form-control" value="{{address.state}}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">City</label>
+                          <input type="text" name="city"  class="form-control" value="{{address.city}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Country</label>
+                          <input type="text" name="country"  class="form-control" value="{{address.country}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Postal Code</label>
+                          <input type="text" name="zipcode"  class="form-control" value="{{address.zipcode}}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Salvar</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-profile">
+      <div class="card-avatar">
+        <a href="#pablo">
+          <img class="img" src="" />
+        </a>
+      </div>
+      <div class="card-body">
+        <h6 class="card-category text-gray">
+          {{user.username}}
+        </h6>
+        <h4 class="card-title">
+          {{ user.email }}
+        </h4>
+        <p class="card-description">
+          Don't be scared of the truth because we need to restart the human foundation in truth And I love you like
+          Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+        </p>
+        <a href="#pablo" class="btn btn-primary btn-round">Follow</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

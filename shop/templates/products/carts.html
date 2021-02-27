@@ -1,0 +1,96 @@
+{% extends "layouts/base.html" %}
+{% block title %} List Products {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 ">
+        <div class="card">
+            <div class="card-header card-header-warning">
+                <h4 class="card-title">Carrinho</h4>
+            </div>
+            <div class="card-body table-responsive">
+
+                <table class="table table-hover">
+                    <thead class="text-warning">
+                        <th></th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Desconto</th>
+                        <th>Subtotal</th>
+                        <th>Edit</th>
+                        <th>Remover</th>
+                    </thead>
+                    <tbody>
+                        {% for key, product in session['Shoppingcart'].items() %}
+                        {% set discount = "%0.2f"|format((product.discount/100)*product.price|float) %}
+                        <tr>
+                            <th><img src="{{url_for('static',filename='images/'+ product.image)}}" style="width: 110px"
+                                    alt="{{product.name }}"></th>
+                            <th>{{product.name }}</th>
+
+
+                            <th>R$ {{product.price}}</th>
+                            <form role="form" action="" method="post">
+
+
+                                <th>
+                                    <input class="form-control" type="number" name="quantity" min="1" max="10"
+                                        value="{{product.quantity}}" style="width: 70px;">
+                                </th>
+                                {% if product.discount %}
+                                <th>{{ product.discount }}% &nbsp; é &nbsp; {{discount}}</th>
+                                {% else %}
+                                <th></th>
+                                {% endif %}
+
+                                {% set subtotal = product.quantity|int * product.price|float %}
+                                <th>{{"%0.2f"|format(subtotal|float - discount|float)}}</th>
+                                <th>
+                                    <button type="submit" rel="tooltip" title="Edit Task"
+                                        class="btn btn-primary btn-link btn-sm">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                </th>
+                            </form>
+                            <th>
+                                <button type="button" onclick="location.href='{{url_for('deleteitem',id=key)}}'"
+                                    rel="tooltip" title="Remover" class="btn btn-danger btn-link btn-sm">
+                                    <i class="material-icons">close</i>
+                                </button>
+                            </th>
+
+                        </tr>
+                        {% endfor %}
+                        <table class="table table-sm">
+                            <tr>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" href="/">Continuar Comprando</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-success" href="{{url_for('get_order')}}">Confirmar</a>
+                                </td>
+                                <td width="10%"></td>
+                                <td>
+                                    <h4>Taxa: R$ {{tax}}</h4>
+                                </td>
+                                <td>
+                                    <h4>Total Grade: R$ {{grandtotal}}</h4>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-danger float-right mr-1"
+                                        href="{{url_for('clearcart')}}">Limpar Carrinho</a>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

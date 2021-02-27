@@ -1,0 +1,67 @@
+<div class="sidebar" data-color="purple" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+  <div class="logo">
+    <a href="{{url_for('admin')}}" class="simple-text logo-normal">
+      <strong>Cerv</strong> Jaria
+    </a>
+  </div>
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      {% if segment != 'homeP' %}
+      <li class="nav-item {% if 'index' in segment %} active {% endif %}">
+        <a class="nav-link" href="{{url_for('admin')}}">
+          <i class="material-icons">dashboard</i>
+          <p>Dashboard</p>
+        </a>
+      </li>
+      <li class="nav-item {% if 'brand' in segment %} active {% endif %}">
+        <a class="nav-link" href="{{url_for('brands')}}">
+          <i class="material-icons">star</i>
+          <p>Marcas</p>
+        </a>
+      </li>
+      <li class="nav-item {% if 'category' in segment %} active {% endif %}">
+        <a class="nav-link" href="{{url_for('category')}}">
+          <i class="material-icons">category</i>
+          <p>Categoria</p>
+        </a>
+      </li>
+      <li class="nav-item {% if 'typeUser' in segment %} active {% endif %}">
+        <a class="nav-link" href="{{url_for('type_user')}}">
+          <i class="material-icons">https</i>
+          <p>Tipos de Usuario</p>
+        </a>
+      </li>
+      <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+        <a class="nav-link" href="/page-user.html">
+          <i class="material-icons">person</i>
+          <p>User Profile</p>
+        </a>
+      </li>
+      <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+        <a class="nav-link" href="{{url_for('index')}}">
+          <i class="material-icons">store</i>
+          <p>Shop</p>
+        </a>
+      </li>
+
+      <li class="nav-item active-pro">
+        <a class="nav-link" target="_blank" rel="noopener noreferrer" href="">
+          <i class="material-icons ">directions_run</i>
+          <p>Logout</p>
+        </a>
+      </li>
+
+      {% else %}
+
+      <li class="nav-item {% if 'homeP' in segment %} active {% endif %}">
+        <a class="nav-link" href="{{url_for('index')}}">
+          <i class="material-icons">home</i>
+          <p>Home</p>
+        </a>
+      </li>
+      
+
+      {% endif %}
+    </ul>
+  </div>
+</div>

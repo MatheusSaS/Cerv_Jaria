@@ -1,0 +1,90 @@
+{% extends "layouts/base.html" %}
+{% block title %} List Products {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 ">
+        <div class="card">
+            <div class="card-header card-header-warning">
+                <h4 class="card-title">Carrinho</h4>
+            </div>
+            <div class="card-body table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="card-title">
+                            Fatura: {{orders.invoice}}
+                        </h5>
+                        <h5 class="card-title">
+                            Status: {{orders.status}}
+                        </h5>
+                        <h5 class="card-title">
+                            Cliente nome: {{customer.name}}
+                        </h5>
+                        <h5 class="card-title">
+                            Cliente email: {{customer.email}}
+                        </h5>
+
+                    </div>
+                </div>
+                <br>
+                <table class="table table-hover">
+                    <thead class="text-warning">
+                        <th>%</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Desconto</th>
+                        <th>Subtotal</th>
+                    </thead>
+                    <tbody>
+                        {% for key, product in orders.orders.items() %}
+                        {% set discount = "%0.2f"|format((product.discount/100)*product.price|float) %}
+                        <tr>
+                            <th>{{loop.index}}</th>
+                            <th>{{product.name }}</th>
+                            <th>R$ {{product.price}}</th>
+                            <form role="form" action="" method="post">
+                                <th>
+                                    {{product.quantity}}
+                                </th>
+                                {% if product.discount %}
+                                <th>{{ product.discount }}% &nbsp; é &nbsp; {{discount}}</th>
+                                {% else %}
+                                <th></th>
+                                {% endif %}
+
+                                {% set subtotal = product.quantity|int * product.price|float %}
+                                <th>{{"%0.2f"|format(subtotal|float - discount|float)}}</th>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                        <table class="table table-sm">
+                            <tr>
+                                <td>
+                                    <a class="btn btn-sm btn-success" href="{{url_for('get_order')}}">Finalizar</a>
+                                </td>
+                                <td width="10%"></td>
+                                <td>
+                                    <h4>Taxa: R$ {{tax}}</h4>
+                                </td>
+                                <td>
+                                    <h4>Total Grade: R$ {{grandTotal}}</h4>
+                                </td>
+                                <td>
+                                    <form action="{{url_for('get_pdf',invoice=orders.invoice)}}" method="POST">
+                                        <button type="submit" class="btn btn-sm btn-danger float-right mr-1">
+                                            Gerar PDF
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

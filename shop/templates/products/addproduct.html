@@ -1,0 +1,103 @@
+{% extends "layouts/base.html" %} {% block title %} Login {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %} {% block content %}
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">
+                    Adicionar produto
+                </h4>
+            </div>
+            <div class="card-body">
+
+                <h6 class="card-category">
+                    {% include 'layouts/_messages.html' %}
+                </h6>
+
+                {% from "layouts/_formhelpers.html" import render_field %}
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ render_field(form.name,Class="form-control",placeholder="Adicionar produto") }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ render_field(form.price,Class="form-control",placeholder="Adicionar preço produto")
+                                }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ render_field(form.discount,Class="form-control",placeholder="Adicionar discount
+                                produto") }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ render_field(form.stock,Class="form-control",placeholder="Adicionar stock produto")
+                                }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ render_field(form.discription,Class="form-control",placeholder="Adicionar discription
+                                produto", rows="5")}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="brand">Adicione a Marca</label>
+                                <select name="brand" id="brand" class="form-control">
+                                    <option value="">Selecione a Marca</option>
+                                    {% for brand in brands %}
+                                    <option value="{{brand.id}}">{{brand.name}}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="category">Adicione a Categoria</label>
+                                <select name="category" id="category" class="form-control">
+                                    <option value="">Selecione a Categoria</option>
+                                    {% for category in categories %}
+                                    <option value="{{category.id}}">{{category.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4">{{render_field(form.image_1,class="form-control-file")}} </div>
+                            <div class="col-md-4">{{render_field(form.image_2,class="form-control-file")}} </div>
+                            <div class="col-md-4">{{render_field(form.image_3,class="form-control-file")}} </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-left">Adicionar</button>
+
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

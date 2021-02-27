@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" href="/static/assets/img/icon.ico" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Cerv Jaria
+  </title>
+
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no"
+    name="viewport" />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+  <!-- CSS Files -->
+  <link href="/static/assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="/static/assets/demo/demo.css" rel="stylesheet" />
+
+  <!-- Specific Page CSS goes HERE  -->
+  {% block stylesheets %}
+  <style>
+    .i-am-centered {
+      margin: auto;
+      max-width: 550px;
+      padding-top: 100px;
+    }
+  </style>
+  {% endblock stylesheets %}
+</head>
+
+<body class="">
+  {% include 'includes/navigation.html' %}
+
+  <div class="main-panel">
+
+    <div class="content">
+      <div class="container-fluid">
+        {% block content %}
+        {% from "layouts/_formhelpers.html" import render_field %}
+        <div class="i-am-centered">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">
+                    Login
+                  </h4>
+                </div>
+                <div class="card-body">
+                  <br />
+                  {% from "layouts/_formhelpers.html" import render_field %}
+                  <form role="form" method="post" action="">
+                      {{form.csrf_token}}
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          {{ render_field(form.email,Class="form-control") }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          {{ render_field(form.password,Class="form-control") }}
+                        </div>
+                      </div>
+                    </div>
+                    {% include "layouts/_messages.html" %}
+                    <button type="submit" name="login" class="btn btn-primary pull-left">Login</button>
+                   
+                    <span class="pull-right">
+                      Não possui uma conta? <a href="{{url_for('customer_register')}}" class="text-primary">Create</a>
+                    </span>
+                    <div class="clearfix"></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    {% include 'includes/footer.html' %}
+  </div>
+  {% endblock content %}
+
+
+  <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %}{% endblock javascripts %}
+</body>
+
+</html>
