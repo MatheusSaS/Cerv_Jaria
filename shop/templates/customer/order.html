@@ -63,7 +63,23 @@
                         <table class="table table-sm">
                             <tr>
                                 <td>
-                                    <a class="btn btn-sm btn-success" href="{{url_for('get_order')}}">Finalizar</a>
+                                    {% if orders.status == 'Pago' %}
+                                    {% else %}
+                                    <form action="{{url_for('payment')}}" method="POST">
+                                        {% set amount = grandTotal.replace('.','')%}
+                                        <input type="hidden" name="amount" value="{{amount}}">
+                                        <input type="hidden" name="invoice" value="{{orders.invoice}}">
+                                        <script
+                                          src="https://checkout.stripe.com/checkout.js"
+                                          class="stripe-button"
+                                          data-key="pk_test_51IPTwHK1hJnLc6TzHoomPra3ByKtDGDJL5ieN2YAGIM81XF5XjrG6dlpfmRWvGPtLwjIJNT4d5uMdni1Hhx90r8w00JQaIMr20"
+                                          data-name="Cerv jaria"
+                                          data-description="Cervejas em geral"
+                                          data-amount="{{amount}}"
+                                          data-currency="brl">
+                                        </script>
+                                      </form>
+                                    {% endif %}
                                 </td>
                                 <td width="10%"></td>
                                 <td>

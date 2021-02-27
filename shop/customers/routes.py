@@ -1,10 +1,43 @@
+from itertools import product
 from flask import redirect, render_template, url_for, flash,request,session,make_response
 from flask_login import login_required, current_user, logout_user,login_user
+from stripe.api_resources import invoice
 from shop import db, app, photos,bcrypt,login_manager
 from .forms import CustomerRegisterForm, CustomerLoginForm
 from .model import Register, AddressDelivery,Type_user,CustomerOrder
 import secrets, os
+import stripe
 import pdfkit
+
+
+Publishablekey = 'pk_test_51IPTwHK1hJnLc6TzHoomPra3ByKtDGDJL5ieN2YAGIM81XF5XjrG6dlpfmRWvGPtLwjIJNT4d5uMdni1Hhx90r8w00JQaIMr20'
+stripe.api_key = 'sk_test_51IPTwHK1hJnLc6Tzkl09DkLRtCP1HaSNPFmdkYVLefDzua2FknxucKK9IeNXW4Xfj1BEEcj60wduEGGiiaMi4Vop00hTVwGgzE'
+
+@app.route('/payment', methods=['POST'])
+@login_required
+def payment():
+    invoice = request.form.get('invoice')
+    amount = request.form.get('amount')
+    
+    customer = stripe.Customer.create(
+        email=request.form['stripeEmail'],
+        source=request.form['stripeToken'],
+    )
+
+    charge = stripe.Charge.create(
+        customer=customer.id,
+        description='Cerv-jaria',
+        amount=amount,
+        currency='brl',
+    )
+    orders = CustomerOrder.query.filter_by(customer_id=current_user.id,invoice=invoice).order_by(CustomerOrder.id.desc()).first()
+    orders.status = 'Pago'
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/thanks')
+def thanks():
+    return render_template('customer/register.html')
 
 @app.route('/customer/register', methods=['GET','POST'])
 def customer_register():
@@ -46,12 +79,19 @@ def customer_logout():
     session.clear()
     return redirect(url_for('customerLogin'))
 
+def updateshoppingcart():    
+    for _key, product in session['Shoppingcart'].items():
+        session.modified = True
+        del product['image']
+    return updateshoppingcart
+    
 @app.route('/getorder')
 @login_required
 def get_order():
     if current_user.is_authenticated:
         customer_id = current_user.id
         invoice = secrets.token_hex(5)
+        updateshoppingcart()
         try:
             order = CustomerOrder(invoice=invoice,customer_id=customer_id,
                                   orders=session['Shoppingcart'])
@@ -81,7 +121,7 @@ def orders(invoice):
             subTotal -= discount
             
             tax = ("%.2f" % (.06 * float(subTotal)))
-            grandTotal = float("%.2f" % (1.06 * subTotal))
+            grandTotal = ("%.2f" % (1.06 * float(subTotal)))
     else:
         return redirect(url_for('customerLogin'))
     return render_template('customer/order.html', invoice=invoice, tax=tax,subTotal=subTotal,
